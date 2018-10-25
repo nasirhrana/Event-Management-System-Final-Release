@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "ShowDateWiseEvent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align: center; color: green">Show Date Wise Event</h2>
+<form id="eventForm">
+    <label>Start Date</label>
+    <input type="date" id="startDate" />
+    <label>End Date</label>
+    <input type="date" id="endDate" />
+    <input type="button" id="Show" value="Show" class="btn btn-default" style="background-color: #4CAF50; color: white" />
+</form>
+<br />
+<div class="amount" id="aaa">
+    <label style="color: #4CAF50">Total Event</label>
+    <input type="text" name="amount" id="amount" value="" disabled="disabled" style="text-align: center"/>
+</div>
+<br/>
+
+
+<form>
+    <table class="table table-striped table-bordered table-hover" id="tableId">
+        <thead>
+            <tr>
+                <th style="text-align: center">Event Name</th>
+                <th style="text-align: center">Venue </th>
+                <th style="text-align: center">Date</th>
+                <th style="text-align: center">Start Time</th>
+                <th style="text-align: center">End Time</th>
+
+            </tr>
+        </thead>
+        <tbody id="EventTableBody"></tbody>
+
+
+    </table>
+</form>
+<h3 style="text-align: center; color: green"><label id="displayMsg"></label> </h3>
+
+
+
+@section scripts
+{
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#tableId").hide();
+            $("#aaa").hide();
+            
+            $('#eventForm').validate({
+                rules: {
+                    startDate: "Required",
+                    endDate: "Required",
+        }
+            });
+            $('#Show').click(function () {
+                $("#tableId").show();
+                $("#aaa").show();
+                $("#EventTableBody").empty();
+                var fromDate = $('#startDate').val();
+                var toDate = $('#endDate').val();
+                var startdate = Date.parse(fromDate);
+                var enddate = Date.parse(toDate);
+        
+                if (startdate > enddate) {
+                    $("#displayMsg").text("Start Date must be less than End Date");
+                }
+                else {
+
+                    var jsonData = { frmDate:fromDate, edDate: toDate };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("ShowDateWiseEventByRange", "Event")',
+
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(jsonData),
+                    dataType: "json",
+                    success: function (data) {
+                        $('#amount').val(data.length);
+                        $.each(data, function (key, value) {
+                            var dateFormatted = new Date(parseInt(value.EventDate.substr(6))).toDateString();
+                            $("#EventTableBody").append('<tr><td>' + value.EventName + '</td><td>' + value.EventVenue + '</td><td>' + dateFormatted + '</td><td>' + value.StartTime + '</td><td>' + value.EndTime + '</td></tr>');
+                        });
+                    }
+
+
+                });
+
+            }
+
+            });
+
+        });
+    </script>
+}
+

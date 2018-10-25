@@ -1,0 +1,90 @@
+﻿ @model EventManagementSystem.Models.User
+
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align: center;color: maroon"> Employee Entry</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Name, new { @id = "Name1", placeholder = " Enter Name", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Email, new { @id = "Email1", placeholder = "  Enter Email", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                @Html.DropDownList("UserTypeId", null, "---Select User Type---", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserTypeId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                @Html.PasswordFor(m => m.Password, new { @id = "Password1", placeholder = "Enter Password", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+        </div>
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @id = "ConfirmPassword1", placeholder = "Re-enter Password", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="ShowEmployeeName" class="control-label col-md-4"></label>
+            <div class=" col-md-8">
+                <input type="submit" value="Save" id="button" class="btn btn-default" style="background-color: #4CAF50;color: white" />
+                <input type="button" id="Cancel" value="Cancel" class="btn btn-default" style="background-color: #FF0000; color: white" />
+            </div>
+        </div>
+    </div>
+}
+<h3 style="text-align: center;color: green">@ViewBag.msg</h3>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Name1').val('');
+            $('#Email1').val('');
+
+            $('#Cancel').click(function () {
+                $('#Name1').val('');
+                $('#Email1').val('');
+                $('#UserTypeId').val('');
+                $('#Password1').val('');
+                $('#ConfirmPassword1').val('');
+            });
+        });
+
+    </script>
+
+}

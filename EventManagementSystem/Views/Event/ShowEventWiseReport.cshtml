@@ -1,0 +1,80 @@
+﻿
+
+@{
+    ViewBag.Title = "ShowEventWiseReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align: center;color: green">View  Event  Report</h2>
+
+<form id="eventForm">
+    <select name="eventId" id="eventId">
+        <option value="">--Select Event--</option>
+        @foreach (var eEvent in ViewBag.EventList)
+        {
+            <option value="@eEvent.EventId">@eEvent.EventName</option>
+        }
+    </select>
+    &nbsp
+    <input type="button" id="Show" value="View Report" class="btn btn-default" style="background-color: #4CAF50; color: white; text-align: center" />
+</form>
+<br />
+
+
+
+<form>
+    <table class="table table-striped table-bordered table-hover" id="tableId">
+        <thead>
+            <tr>
+                <th style="text-align: center">Visitor Name </th>
+                <th style="text-align: center">Visitor Email </th>
+                <th style="text-align: center">Visitor Contact No</th>
+                <th style="text-align: center">Gender</th>
+
+            </tr>
+        </thead>
+        <tbody id="EventTableBody"></tbody>
+
+
+    </table>
+</form>
+<div class="amount" id="aaa" style="text-align: right">
+    <label style="color: #4CAF50">Total Visitor</label>
+    <input type="text" name="amount" id="amount" value="" disabled="disabled" />
+</div>
+<br />
+<h3 style="text-align: center; color: green"><label id="displayMsg"></label> </h3>
+@section scripts
+{
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#aaa').hide();
+            $('#tableId').hide();
+            $('#Show').click(function () {
+                var eId = $('#eventId').val();
+                var jsonData = { eventID: eId };
+                $('#tableId').show();
+                $('#EventTableBody').empty();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetEventVisitorByEventId", "Event")',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(jsonData),
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.length==0) {
+                            $('#displayMsg').text('Sorry no visitor attended in this event');
+                        }
+                        $("#amount").val(data.length);
+                        $.each(data, function (key, value) {
+                            $("#EventTableBody").append('<tr><td>' + value.VisitorName + '</td><td>' + value.VisitorEmail + '</td><td>' + value.VisitorContactNo + '</td><td>' + value.Gender + '</td>');
+                        });
+
+
+                    }
+                });
+            });
+        });
+    </script>
+}

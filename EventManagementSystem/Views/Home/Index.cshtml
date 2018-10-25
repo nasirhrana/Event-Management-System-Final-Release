@@ -1,0 +1,33 @@
+﻿
+@{
+    Layout = null;
+    Layout = "~/Views/Shared/Home.cshtml";
+}
+<marquee><h2 style="text-align: center; color: green">Welcome to Event Management System</h2> </marquee>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" placeholder="Username" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                <input type="password" class="form-control" placeholder="Password"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                <input type="button" id="Show" value="Login" class="btn btn-default" style="background-color: #4CAF50; color: white" />
+            </div>
+        </div>
+    </div>
+    
+}
+    
+    
+    

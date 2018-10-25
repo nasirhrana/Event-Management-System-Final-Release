@@ -1,0 +1,85 @@
+﻿
+
+@model IEnumerable<EventManagementSystem.Models.VisitorRegistration>
+@{
+    ViewBag.Title = "PrintTicket";
+    Layout = "~/Views/Shared/Executive.cshtml";
+
+}
+
+<h2 style="text-align: center; color: green">Print Ticket</h2>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VisitorId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VisitorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VisitorEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VisitorContactNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TicketNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeOfRegistration)
+        </th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitorId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitorEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitorContactNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeOfRegistration)
+            </td>
+            <td>
+                <dt>
+                    @Html.ActionLink("Print", "PrintTicket", new { id = item.VisitorId })
+                </dt>
+            </td>
+        </tr>
+    }
+
+</table>

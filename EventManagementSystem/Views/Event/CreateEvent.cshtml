@@ -1,0 +1,205 @@
+﻿@model EventManagementSystem.Models.Event
+
+@{
+    ViewBag.Title = "CreateEvent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align: center; color: maroon">Event Information Entry</h2>
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "EventForm", id = "EventForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                <label id="EventName2">Event Name</label>
+                @Html.TextBoxFor(m => m.EventName, new { @id = "EventName1", placeholder = " Enter Event Name", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EventName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                <label id="EventVenue2">Event Venue</label>
+                @Html.TextBoxFor(m => m.EventVenue, new { @id = "EventVenue1", placeholder = " Enter Event Venue", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EventVenue)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                <label id="Email2">Organizer Email</label>
+                @Html.TextBoxFor(m => m.OrganizerEmail, new { @id = "Email1", placeholder = " Enter Organizer Email", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OrganizerEmail)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                <label id="ContactNo2">Organizer Contact No</label>
+                @Html.TextBoxFor(m => m.ContactNo, new { @id = "ContactNo1", placeholder = " Enter Organizer Contact No", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ContactNo)
+            </div>
+        </div>
+
+        
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                <label id="EventDate1">Event Date</label>
+                <input type="date" name="EventDate" id="EventDate" class="form-control" placeholder="Event Date" />
+                @Html.ValidationMessageFor(model => model.EventDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                <label id="StartTime1">Start Time</label>
+                <input type="time" name="StartTime" id="StartTime" class="form-control" placeholder="Start Time" />
+                @Html.ValidationMessageFor(model => model.StartTime)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class="col-md-8">
+                <label id="EndTime1">End Time</label>
+                <input type="time" name="EndTime" id="EndTime" class="form-control" placeholder="End Time" />
+                @Html.ValidationMessageFor(model => model.EndTime)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="Name" class="control-label col-md-4"></label>
+            <div class=" col-md-8">
+                <input type="button" value="Save" id="submit" class="btn btn-default" style="background-color: #4CAF50;color: white" />
+                <input type="button" id="Cancel" value="Clear" class="btn btn-default" style="background-color: #FF0000; color: white" />
+            </div>
+        </div>
+    </div>
+}
+<h3 style="text-align: center; color: green"><label id="displayMsg"></label> </h3>
+
+
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.timepicker.min.js"></script>
+    <script src="~/Scripts/jquery-ui-timepicker-addon.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#Name2').hide();
+            $('#Email2').hide();
+            $('#ContactNo2').hide();
+            $('#EventName2').hide();
+            $('#EventVenue2').hide();
+            $('#EventDate1').hide();
+            $('#StartTime1').hide();
+            $('#EndTime1').hide();
+
+            $('#Cancel').click(function () {
+                $('#Name1').val('');
+                $('#Email1').val('');
+                $('#ContactNo1').val('');
+                $('#EventVenue1').val('');
+                $('#EventDate').val('');
+                $('#StartTime').val('');
+                $('#EndTime').val('');
+                $('#EventName1').val('');
+                $('#displayMsg').hide();
+            });
+            $('#Name1').click(function () {
+                $('#Name2').show();
+
+            });
+            $('#Email1').click(function () {
+                $('#Email2').show();
+
+            });
+            $('#ContactNo1').click(function () {
+                $('#ContactNo2').show();
+
+            });
+            $('#EventName1').click(function () {
+                $('#EventName2').show();
+
+            });
+            $('#EventVenue1').click(function () {
+                $('#EventVenue2').show();
+
+            });
+            $('#EventDate').click(function () {
+                $('#EventDate1').show();
+
+            });
+            $('#StartTime').click(function () {
+                $('#StartTime1').show();
+
+            });
+            $('#EndTime').click(function () {
+                $('#EndTime1').show();
+
+            });
+            $("#submit").click(function () {
+                var email = $("#Email1").val();
+                var cno = $("#ContactNo1").val();
+                var ename = $("#EventName1").val();
+                var venue = $("#EventVenue1").val();
+                var startTime1 = $("#StartTime").val();
+                var endTime1 = $("#EndTime").val();
+                var date = $("#EventDate").val();
+
+                var hour = parseInt(startTime1.substr(0, 2));
+                var minute = parseInt(startTime1.substr(3, 5));
+                var startTime = hour * 60 + minute;
+
+                hour = parseInt(endTime1.substr(0, 2));
+                minute = parseInt(endTime1.substr(3, 5));
+                var endTime = hour * 60 + minute;
+
+                if (startTime == endTime) {
+                    $("#displayMsg").text("Its not Possible to create Zero Minute Duration class");
+                }
+
+                if (startTime < endTime) {
+
+                    var jsonData = { OrganizerEmail: email, ContactNo: cno, EventName: ename, EventVenue: venue, StartTime: startTime1, EndTime: endTime1,  EventDate: date };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("CreateEvent", "Event")',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(jsonData),
+                        dataType: "json",
+                        success: function (data) {
+                            $("#displayMsg").text(data);
+
+                        }
+                    });
+
+                }
+                if (startTime > endTime) {
+                    $("#displayMsg").text("Start time must be less than end time");
+
+                }
+
+
+
+            });
+        });
+    </script>
+}
